@@ -9,7 +9,8 @@ import {RouterModule} from '@angular/router';
 export type MenuItem = {
   icon: string;
   label: string;
-  route: string;
+  route?: string;
+  subItems?: MenuItem[];
 }
 
 @Component({
@@ -25,13 +26,22 @@ export type MenuItem = {
       </div>
     </div>
     <mat-nav-list>
-      <a mat-list-item *ngFor="let item of menuItems()" [routerLink]="item.route" routerLinkActive #rla="routerLinkActive" [activated]="rla.isActive">
-        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-        <span matListItemTitle *ngIf="!sidenavCollapsed()">{{ item.label }}</span>
-      </a>
+<!--      @for (item of menuItems(); track item.label){-->
+        <a mat-list-item *ngFor="let item of menuItems()" [routerLink]="item.route" routerLinkActive="selected-menu-item"
+           #rla="routerLinkActive" [activated]="rla.isActive">
+          <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined' " matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle *ngIf="!sidenavCollapsed()">{{ item.label }}</span>
+        </a>
+<!--      }-->
+
     </mat-nav-list>
   `,
   styles: [`
+
+    :host * {
+        transition: all 500ms ease-in-out;
+    }
+
     .sidenav-header {
       padding-top: 24px;
       text-align: center;
@@ -43,6 +53,8 @@ export type MenuItem = {
       }
 
       .header-text {
+        height: 3rem;
+
         > h2 {
           margin: 0;
           font-size: 1rem;
@@ -55,12 +67,24 @@ export type MenuItem = {
         }
       }
 
-      .hide-header-text {
-        opacity: 0;
-        height: 0;
-      }
     }
-  `]
+
+    .hide-header-text {
+      opacity: 0;
+      height: 0px !important;
+    }
+
+    .menu-item {
+      border-left: 5px solid;
+      border-left-color:  rgba(0,0,0,0);
+    }
+
+    .selected-menu-item {
+      border-left-color: var(--primary-color);
+      background: rgba(0, 0, 0, 0.05);
+    }
+  `,
+  ],
 })
 export class CustomSidenavComponent {
 
@@ -76,7 +100,24 @@ export class CustomSidenavComponent {
     {
       icon: 'temple_hindu',
       label: 'Spiritual',
-      route: 'spiritual'
+      route: 'spiritual',
+      subItems: [
+        {
+          icon: 'temple_hindu',
+          label: 'Nitya Pooja',
+          route: 'nityapooja'
+        },
+        {
+          icon: 'temple_hindu',
+          label: 'Bhagavadgita',
+          route: 'bhagavadgita'
+        },
+        {
+          icon: 'temple_hindu',
+          label: 'Puranamulu',
+          route: 'puranamulu'
+        }
+      ]
     },
     {
       icon: 'attach_money',
