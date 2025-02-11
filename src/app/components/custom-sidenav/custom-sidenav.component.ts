@@ -2,7 +2,6 @@ import {Component, computed, Input, signal} from '@angular/core';
 import {CommonModule} from '@angular/common'
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
-import {sign} from 'node:crypto';
 import {RouterModule} from '@angular/router';
 
 
@@ -18,7 +17,7 @@ export type MenuItem = {
   imports: [CommonModule, MatListModule, MatIconModule, RouterModule],
   template: `
     <div class="sidenav-header">
-      <img [width]="profilePicSize()" [height]="profilePicSize() " src="/profile-pic.jpg"/>
+      <a [routerLink]="['/portfolio']"><img [width]="profilePicSize()" [height]="profilePicSize() " src="/profile-pic.jpg" alt="profilePic"/></a>
       <div class="header-text" [class.hide-header-text]="sidenavCollapsed()">
         <h2>Your wellwisher</h2>
         <p>Raviteja Gubba</p>
@@ -36,7 +35,7 @@ export type MenuItem = {
       padding-top: 24px;
       text-align: center;
 
-      > img {
+      a img {
         border-radius: 100%;
         object-fit: cover;
         margin-bottom: 10px;
