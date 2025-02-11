@@ -1,12 +1,11 @@
 import {Component} from '@angular/core';
-import {MatAnchor, MatButton} from '@angular/material/button';
-import {MatCard, MatCardActions, MatCardContent, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
+import {MatCard, MatCardContent, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {CommonModule, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {MatToolbar} from '@angular/material/toolbar';
-import {MatFooterRow} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 export type Project = {
   title: string;
@@ -38,7 +37,7 @@ export type Project = {
       <span class="subtitle">Payment Architect | TechLead | FullStack Developer</span>
     </mat-toolbar>
 
-    <mat-grid-list cols="3" rowHeight="550px">
+    <mat-grid-list [cols]="gridListCols" [rowHeight]="gridListRowHeight">
       <mat-grid-tile *ngFor="let project of projects">
         <mat-card class="featured-card">
           <img *ngIf="project.imageUrl" ngSrc="{{ project.imageUrl }}" alt="{{ project.title }}" class="card-image">
@@ -46,10 +45,13 @@ export type Project = {
             <mat-card-title>{{ project.title }}</mat-card-title>
             <mat-card-subtitle>{{ project.role }}</mat-card-subtitle>
             <p>{{ project.description }}</p>
+            <p class="project-header">Tech Stack:</p>
             <ul>
               <li *ngFor="let service of project.services" class="service">{{ service }}</li>
             </ul>
-            <p *ngFor="let contribution of project.contributions">{{ contribution }}</p>
+            <p class="project-header">Team size: {{project.teamSize}}</p>
+            <p class="project-header">Technical details / Contribution:</p>
+            <p *ngFor="let contribution of project.contributions">* {{ contribution }}</p>
           </mat-card-content>
           <!--          <mat-card-actions>-->
           <!--            <button mat-raised-button color="primary">View Project</button>-->
@@ -78,7 +80,7 @@ export type Project = {
       flex-direction: column;
       justify-content: center; /* Center content horizontally */
       align-items: center; /* Center content vertically (optional) */
-      height: 25vh; /* Make the container take full viewport height */
+      height: 10vh; /* Make the container take full viewport height */
     }
 
     .title {
@@ -96,7 +98,7 @@ export type Project = {
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       overflow: hidden;
-      min-height: 500px;
+      min-height: 600px;
       display: flex;
       flex-direction: column;
       /*width: 25%;*/
@@ -117,6 +119,10 @@ export type Project = {
 
     .service {
       font-size: 0.8rem;
+    }
+
+    .project-header{
+      font-style: italic;
     }
 
     .footer {
@@ -146,18 +152,77 @@ export type Project = {
     }
 
     @media (max-width: 600px) {
+      .title-container {
+        display: flex; /* Use flexbox for centering */
+        flex-direction: column;
+        justify-content: center; /* Center content horizontally */
+        align-items: center; /* Center content vertically (optional) */
+        height: 10vh; /* Make the container take full viewport height */
+      }
+
       /* Adjust breakpoint as needed */
       .title {
-        font-size: 1.5rem; /* Reduce font size for smaller screens */
+        font-size: 2.5rem; /* Reduce font size for smaller screens */
+        margin-bottom: 10px;
       }
 
       .subtitle {
         font-size: 0.8rem;
       }
+
+      .featured-card {
+        background-color: rgba(197, 195, 195, 0.05); /* Dark background with slight transparency */
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        overflow: scroll;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        /*width: 25%;*/
+        backdrop-filter: blur(5px); /* Add a subtle blur effect */
+        /*margin: 10px;*/
+      }
+
+      mat-card-content {
+        flex-grow: 1; /* Allow the content to grow to fill the remaining space */
+        padding: 10px; /* Add some padding for better readability */
+      }
+
+      .service {
+        font-size: 0.9rem;
+      }
     }
   `
 })
 export class PortfolioComponent {
+
+  gridListCols: number = 3;
+  gridListRowHeight: string = '550px';
+
+  constructor(private breakpointObserver: BreakpointObserver) {}
+
+  ngOnInit() {
+    this.breakpointObserver.observe([
+      Breakpoints.XSmall,
+      Breakpoints.Small,
+      Breakpoints.Medium,
+      Breakpoints.Large,
+      Breakpoints.XLarge,
+    ]).subscribe((result) => {
+      if (result.matches) {
+        if (result.breakpoints[Breakpoints.XSmall]) {
+          this.gridListCols = 1;
+          this.gridListRowHeight = '800px';
+        } else if (result.breakpoints[Breakpoints.Small]) {
+          this.gridListCols = 2;
+          this.gridListRowHeight = '800px';
+        } else {
+          this.gridListCols = 3;
+          this.gridListRowHeight = '650px';
+        }
+      }
+    });
+  }
 
   projects: Project[] = [
     {
@@ -174,7 +239,7 @@ export class PortfolioComponent {
       services: ['Java21', 'AWS - Lambda, SNS, SQS, APIGateway, DynamoDB, Cloudwatch, S3', 'Angular', '.NET'],
       role: 'TechLead/Developer',
       teamSize: '3',
-      contributions: ['Integrated with new loyalty provider to support SPENN as a payment option. This can be combined with other payment options like card, vipps, etc.']
+      contributions: ['Integrated with new loyalty provider to support SPENN as a payment option. This can be combined with other payment options like card, vipps, etc.', 'We had to implement a new workload to support this loyalty points which will take care of calculating the distribution between different payment options as this is going to be combined.', 'We also needed to implement additional rules to support restrictions like specific products can\'t be purchased with SPENN.']
     },
     {
       title: 'Migration from AngularJs to Angular',
@@ -223,6 +288,15 @@ export class PortfolioComponent {
       role: 'TechLead/Developer',
       teamSize: '7',
       contributions: ['Created ETL jobs to have data available for business to generate reports based on the needs from acquirers.', 'During critical times like COVID, this was life-saving tool for business to take faster decisions and secure cash-flow.', 'Built a foundational data warehouse to support all payment analytics needs, driving data-driven insights for business improvement.']
+    },
+    {
+      title: 'Payment Operations',
+      description: 'Day-to-day operations to maintain the payment stack, deploying and fire fighting as part of release management. ',
+      role: 'TechLead/DevOpsEngineer',
+      teamSize: '5',
+      services: ['Jenkins', 'Bitbucket', 'Prometheus', 'Grafana', 'Shell', 'Perl', 'AWS - CodeBuild, CodePipeline, Cloudwatch, Cloudtrail, Cloudformation'],
+      contributions: ['Streamlined release management and deployments by forming an operations team.', 'Implemented CI/CD pipelines to automate the release process in AWS.', 'Created monitoring dashboards to track the health of the payment stack and alert in real time in case of incidents.', 'Mentored and groomed the team to \n' +
+      'develop strong DevOps skills and best practices']
     }
 
   ];
