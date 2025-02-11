@@ -22,20 +22,15 @@ export type Project = {
 @Component({
   selector: 'app-portfolio',
   imports: [
-    MatAnchor,
     MatCard,
     MatCardContent,
     MatCardTitle,
-    MatCardActions,
-    MatButton,
     MatGridList,
-    MatGridTile,
     NgForOf,
     NgOptimizedImage,
     MatCardSubtitle,
     NgIf,
-    MatToolbar,
-    MatFooterRow, MatIconModule, MatListModule, CommonModule
+    MatToolbar, MatIconModule, MatListModule, CommonModule, MatGridTile
   ],
   template: `
     <mat-toolbar color="primary" class="title-container">
