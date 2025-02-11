@@ -46,6 +46,6 @@ import {CustomSidenavComponent} from './components/custom-sidenav/custom-sidenav
 })
 export class AppComponent {
   title = 'hitavu';
-  collapsed = signal(false);
+  collapsed = signal(true);
   sidenavWidth = computed(() => this.collapsed() ? '65px' : '250px');
 }
