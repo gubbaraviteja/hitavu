@@ -157,7 +157,7 @@ export type Project = {
         flex-direction: column;
         justify-content: center; /* Center content horizontally */
         align-items: center; /* Center content vertically (optional) */
-        height: 10vh; /* Make the container take full viewport height */
+        height: 15vh; /* Make the container take full viewport height */
       }
 
       /* Adjust breakpoint as needed */
@@ -212,7 +212,7 @@ export class PortfolioComponent {
       if (result.matches) {
         if (result.breakpoints[Breakpoints.XSmall]) {
           this.gridListCols = 1;
-          this.gridListRowHeight = '800px';
+          this.gridListRowHeight = '840px';
         } else if (result.breakpoints[Breakpoints.Small]) {
           this.gridListCols = 2;
           this.gridListRowHeight = '800px';
