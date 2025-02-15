@@ -10,12 +10,13 @@ import {CustomSidenavComponent} from './components/custom-sidenav/custom-sidenav
   selector: 'app-root',
   imports: [RouterOutlet, MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, CustomSidenavComponent],
   template: `
+<!--    <div class="root">-->
     <mat-toolbar class="mat-elevation-z3">
       <button mat-icon-button (click)="collapsed.set(!collapsed())">
         <mat-icon>menu</mat-icon>
       </button>
     </mat-toolbar>
-    <mat-sidenav-container>
+    <mat-sidenav-container class="root">
       <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
         <app-custom-sidenav [collapsed]="collapsed()"/>
       </mat-sidenav>
@@ -23,11 +24,16 @@ import {CustomSidenavComponent} from './components/custom-sidenav/custom-sidenav
         <router-outlet/>
       </mat-sidenav-content>
     </mat-sidenav-container>
+<!--    </div>-->
 
 
   `,
   styles: [
     `
+      .root {
+        background-color: black;
+        color: gray;
+      }
       mat-toolbar {
         position: relative;
         z-index: 5;

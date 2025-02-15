@@ -32,24 +32,25 @@ export type Project = {
     MatToolbar, MatIconModule, MatListModule, CommonModule, MatGridTile
   ],
   template: `
+    <div fxLayout="column" fxLayoutGap="20px">
     <mat-toolbar color="primary" class="title-container">
       <span class="title">Raviteja Gubba</span>
-      <span class="subtitle">Payment Architect | TechLead | FullStack Developer</span>
+      <span class="subtitle">Payment Architect | TechLead | FullStack Developer - based in Oslo and delivering solutions worldwide.</span>
     </mat-toolbar>
 
     <mat-grid-list [cols]="gridListCols" [rowHeight]="gridListRowHeight">
       <mat-grid-tile *ngFor="let project of projects">
         <mat-card class="featured-card">
-          <img *ngIf="project.imageUrl" ngSrc="{{ project.imageUrl }}" alt="{{ project.title }}" class="card-image">
+          <img *ngIf="project.imageUrl" src="{{ project.imageUrl }}" alt="{{ project.title }}" class="card-image">
           <mat-card-content>
-            <mat-card-title>{{ project.title }}</mat-card-title>
+            <mat-card-title class="heading">{{ project.title }}</mat-card-title>
             <mat-card-subtitle>{{ project.role }}</mat-card-subtitle>
             <p>{{ project.description }}</p>
             <p class="project-header">Tech Stack:</p>
             <ul>
               <li *ngFor="let service of project.services" class="service">{{ service }}</li>
             </ul>
-            <p class="project-header">Team size: {{project.teamSize}}</p>
+            <p class="project-header">Team size: {{ project.teamSize }}</p>
             <p class="project-header">Technical details / Contribution:</p>
             <p *ngFor="let contribution of project.contributions">* {{ contribution }}</p>
           </mat-card-content>
@@ -62,30 +63,41 @@ export type Project = {
 
     <mat-toolbar color="primary" class="footer">
       <span class="logo">HITAVU</span>
-<!--      <div class="menu">-->
-<!--        <a href="#">Home</a>-->
-<!--        <a href="#">Work</a>-->
-<!--        <a href="#">Contact</a>-->
-<!--      </div>-->
+      <!--      <div class="menu">-->
+      <!--        <a href="#">Home</a>-->
+      <!--        <a href="#">Work</a>-->
+      <!--        <a href="#">Contact</a>-->
+      <!--      </div>-->
       <div class="social-icons">
-        <a href="https://x.com/gubbaraviteja" target="_blank"><img src="https://cdn.prod.website-files.com/64fed5feaef6acf8a9f7b8ed/65012fc8380c6155c342447a_Icon_X.png" loading="lazy" width="24.5" alt="Icon"></a>
-        <a href="https://www.linkedin.com/in/raviteja-gubba-4b1b7a70/" target="_blank"><img src="https://cdn.prod.website-files.com/64fed5feaef6acf8a9f7b8ed/65012fc7f255dded9fe508fe_Icon_LinkedIn.png" loading="lazy" width="24.5" alt="Icon"></a>
+        <a href="https://x.com/gubbaraviteja" target="_blank"><img
+          src="https://cdn.prod.website-files.com/64fed5feaef6acf8a9f7b8ed/65012fc8380c6155c342447a_Icon_X.png"
+          loading="lazy" width="24.5" alt="Icon"></a>
+        <a href="https://www.linkedin.com/in/raviteja-gubba-4b1b7a70/" target="_blank"><img
+          src="https://cdn.prod.website-files.com/64fed5feaef6acf8a9f7b8ed/65012fc7f255dded9fe508fe_Icon_LinkedIn.png"
+          loading="lazy" width="24.5" alt="Icon"></a>
       </div>
     </mat-toolbar>
+    </div>
   `,
   styles: `
+
+    .heading{
+      color: aliceblue;
+    }
 
     .title-container {
       display: flex; /* Use flexbox for centering */
       flex-direction: column;
       justify-content: center; /* Center content horizontally */
       align-items: center; /* Center content vertically (optional) */
-      height: 10vh; /* Make the container take full viewport height */
+      height: 50vh; /* Make the container take full viewport height */
+      background-color: black;
     }
 
     .title {
       font-size: 5rem;
       margin-bottom: 35px;
+      color: aliceblue;
     }
 
     .subtitle {
@@ -98,7 +110,7 @@ export type Project = {
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       overflow: hidden;
-      min-height: 600px;
+      min-height: 900px;
       display: flex;
       flex-direction: column;
       /*width: 25%;*/
@@ -108,7 +120,7 @@ export type Project = {
 
     .card-image {
       width: 100%;
-      height: 200px;
+      height: 400px;
       object-fit: cover;
     }
 
@@ -217,8 +229,8 @@ export class PortfolioComponent {
           this.gridListCols = 2;
           this.gridListRowHeight = '800px';
         } else {
-          this.gridListCols = 3;
-          this.gridListRowHeight = '650px';
+          this.gridListCols = 2;
+          this.gridListRowHeight = '1400px';
         }
       }
     });
@@ -231,7 +243,9 @@ export class PortfolioComponent {
       services: ['AWS - Fargate, EC2, Aurora serverless, Lambda, SNS, SQS, Java21, DMS, DynamoDB, S3', 'Docker', 'MSSQL', 'Spring Boot', '.NET', 'Angular'],
       role: 'TechLead',
       teamSize: '4+',
-      contributions: ['Created the migration strategy by assessing existing infrastructure and services running in the on-premise environment.', 'Successfully migrated databases with millions of records from on-premise to AWS with out impacting and zero downtime', 'Mentoring and guiding team members on best practises, helping in resolving technical challenges encountered during migration.']
+      contributions: ['Created the migration strategy by assessing existing infrastructure and services running in the on-premise environment.', 'Successfully migrated databases with millions of records from on-premise to AWS with out impacting and zero downtime', 'Mentoring and guiding team members on best practises, helping in resolving technical challenges encountered during migration.'],
+      imageUrl: 'portfolio/payment-migration-to-aws.jpg'
+
     },
     {
       title: 'SPENN',
@@ -239,7 +253,8 @@ export class PortfolioComponent {
       services: ['Java21', 'AWS - Lambda, SNS, SQS, APIGateway, DynamoDB, Cloudwatch, S3', 'Angular', '.NET'],
       role: 'TechLead/Developer',
       teamSize: '3',
-      contributions: ['Integrated with new loyalty provider to support SPENN as a payment option. This can be combined with other payment options like card, vipps, etc.', 'We had to implement a new workload to support this loyalty points which will take care of calculating the distribution between different payment options as this is going to be combined.', 'We also needed to implement additional rules to support restrictions like specific products can\'t be purchased with SPENN.']
+      contributions: ['Integrated with new loyalty provider to support SPENN as a payment option. This can be combined with other payment options like card, vipps, etc.', 'We had to implement a new workload to support this loyalty points which will take care of calculating the distribution between different payment options as this is going to be combined.', 'We also needed to implement additional rules to support restrictions like specific products can\'t be purchased with SPENN.'],
+      imageUrl: 'portfolio/spenn-as-new-payment-option.jpg'
     },
     {
       title: 'Migration from AngularJs to Angular',
@@ -247,7 +262,8 @@ export class PortfolioComponent {
       services: ['AngularJs', 'Angular', 'Sentry', '.NET', 'Java11', 'Spring Boot'],
       role: 'TechLead',
       teamSize: '2',
-      contributions: ['Implemented performance monitoring for paymentSite migration by introducing routing rules in orchestration.', 'Leveraged Sentry for rapid issue resolution through detailed error tracking.', 'Enhanced data analysis capabilities by introducing metadata for each payment session, enabling business insights into site performance across various dimensions.']
+      contributions: ['Implemented performance monitoring for paymentSite migration by introducing routing rules in orchestration.', 'Leveraged Sentry for rapid issue resolution through detailed error tracking.', 'Enhanced data analysis capabilities by introducing metadata for each payment session, enabling business insights into site performance across various dimensions.'],
+      imageUrl: 'portfolio/migrate-angularjs-to-angular.png'
     },
     {
       title: 'KIOSK payments',
@@ -255,7 +271,8 @@ export class PortfolioComponent {
       services: ['REST APIs', 'Kafka', 'MSSQL', 'Angular', '.NET', 'Java11', 'Spring Boot'],
       role: 'TechLead',
       teamSize: '2',
-      contributions: ['We became payment provider and exposed our APIs to Kiosk systems supporting the sales of ancillaries on kiosks at airports.', 'Implemented support for QR code payments where customer can scan QR code on the KIOSK and complete payment on his mobile.']
+      contributions: ['We became payment provider and exposed our APIs to Kiosk systems supporting the sales of ancillaries on kiosks at airports.', 'Implemented support for QR code payments where customer can scan QR code on the KIOSK and complete payment on his mobile.'],
+      imageUrl: 'portfolio/enable-payments-on-kiosks.jpg'
     },
     {
       title: 'Integration with New Distribution Platform',
