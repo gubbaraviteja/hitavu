@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatCard, MatCardContent, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
-import {CommonModule, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
+import {CommonModule, NgForOf, NgIf} from '@angular/common';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
@@ -26,7 +26,6 @@ export type Project = {
     MatCardTitle,
     MatGridList,
     NgForOf,
-    NgOptimizedImage,
     MatCardSubtitle,
     NgIf,
     MatToolbar, MatIconModule, MatListModule, CommonModule, MatGridTile
@@ -44,7 +43,7 @@ export type Project = {
           <img *ngIf="project.imageUrl" src="{{ project.imageUrl }}" alt="{{ project.title }}" class="card-image">
           <mat-card-content>
             <mat-card-title class="heading">{{ project.title }}</mat-card-title>
-            <mat-card-subtitle>{{ project.role }}</mat-card-subtitle>
+            <mat-card-subtitle class="role">{{ project.role }}</mat-card-subtitle>
             <p>{{ project.description }}</p>
             <p class="project-header">Tech Stack:</p>
             <ul>
@@ -81,7 +80,7 @@ export type Project = {
   `,
   styles: `
 
-    .heading{
+    .heading, .role{
       color: aliceblue;
     }
 
@@ -230,7 +229,7 @@ export class PortfolioComponent {
           this.gridListRowHeight = '800px';
         } else {
           this.gridListCols = 2;
-          this.gridListRowHeight = '1400px';
+          this.gridListRowHeight = '950px';
         }
       }
     });
@@ -280,7 +279,8 @@ export class PortfolioComponent {
       services: ['AWS - Lambda, APIGateway, Aurora serverless, S3, REST APIs, SNS, SQS, Cloudwatch', 'Angular', '.NET', 'DynamoDB', 'Java17', 'Spring Boot', 'MSSQL'],
       role: 'TechLead',
       teamSize: '4',
-      contributions: ['We became payment provider and exposed our APIs to an adapter which abstracts norwegian with NDP.', 'Supported company initiative by making the soft release in low volume markets to test the new site.', 'Supporting the release into big markets by A/B testing and collecting the data to compare the conversion between existing and new sites.']
+      contributions: ['We became payment provider and exposed our APIs to an adapter which abstracts norwegian with NDP.', 'Supported company initiative by making the soft release in low volume markets to test the new site.', 'Supporting the release into big markets by A/B testing and collecting the data to compare the conversion between existing and new sites.'],
+      imageUrl: "portfolio/integration-with-ndp.jpg"
     },
     {
       title: 'ClickToPay',
@@ -288,7 +288,8 @@ export class PortfolioComponent {
       services: ['Spring Boot', 'Java11', '.NET', 'AngularJs', 'REST APIs'],
       role: 'TechLead/Developer',
       teamSize: '4',
-      contributions: ['We have integrated with JS SDK from Mastercard on our payment page as the UI components are from them so the clickToPay journey looks the same to the customer when he is doing purchase on different sites.', 'Resolved the challenge as the loading for SDK took more than 10s and customer is completing the payment by the time clickToPay is completely loaded.', 'Customized clickToPay flow for Norwegian Airlines to support surcharging certain card types. we have in-built payment orchestration which needs cardNumber more than the default bin length.']
+      contributions: ['We have integrated with JS SDK from Mastercard on our payment page as the UI components are from them so the clickToPay journey looks the same to the customer when he is doing purchase on different sites.', 'Resolved the challenge as the loading for SDK took more than 10s and customer is completing the payment by the time clickToPay is completely loaded.', 'Customized clickToPay flow for Norwegian Airlines to support surcharging certain card types. we have in-built payment orchestration which needs cardNumber more than the default bin length.'],
+      imageUrl: "portfolio/click-to-pay.jpg"
     },
     {
       title: 'Reduce PCI footprint',
@@ -296,7 +297,8 @@ export class PortfolioComponent {
       services: ['Java11, Spring Boot', 'cloudflare worker', 'SFTP', 'AWS - lambda, SNS, SQS, Cloudwatch, S3', 'MSSQL', 'REST APIs', 'SOAP APIs'],
       role: 'TechLead/Developer',
       teamSize: '3',
-      contributions: ['Migrated all historic data to the new token provider without impacting live traffic and zero downtime.', 'Leveraged various solutions from new tokenization provider and reduced the number of services in PCI environment from 7 to 1.']
+      contributions: ['Migrated all historic data to the new token provider without impacting live traffic and zero downtime.', 'Leveraged various solutions from new tokenization provider and reduced the number of services in PCI environment from 7 to 1.'],
+      imageUrl: "portfolio/pci.jpg"
     },
     {
       title: 'Payment360',
@@ -304,7 +306,8 @@ export class PortfolioComponent {
       services: ['AWS - Quicksight, Glue, Kinesis Firehose, SNS, SQS, StepFunctions, Fargate, S3, Athena, Redshift serverless, Cloudwatch, AWSBatch', 'Kafka', 'MSSQL'],
       role: 'TechLead/Developer',
       teamSize: '7',
-      contributions: ['Created ETL jobs to have data available for business to generate reports based on the needs from acquirers.', 'During critical times like COVID, this was life-saving tool for business to take faster decisions and secure cash-flow.', 'Built a foundational data warehouse to support all payment analytics needs, driving data-driven insights for business improvement.']
+      contributions: ['Created ETL jobs to have data available for business to generate reports based on the needs from acquirers.', 'During critical times like COVID, this was life-saving tool for business to take faster decisions and secure cash-flow.', 'Built a foundational data warehouse to support all payment analytics needs, driving data-driven insights for business improvement.'],
+      imageUrl: "portfolio/payment-360.jpg"
     },
     {
       title: 'Payment Operations',
@@ -313,7 +316,8 @@ export class PortfolioComponent {
       teamSize: '5',
       services: ['Jenkins', 'Bitbucket', 'Prometheus', 'Grafana', 'Shell', 'Perl', 'AWS - CodeBuild, CodePipeline, Cloudwatch, Cloudtrail, Cloudformation'],
       contributions: ['Streamlined release management and deployments by forming an operations team.', 'Implemented CI/CD pipelines to automate the release process in AWS.', 'Created monitoring dashboards to track the health of the payment stack and alert in real time in case of incidents.', 'Mentored and groomed the team to \n' +
-      'develop strong DevOps skills and best practices']
+      'develop strong DevOps skills and best practices'],
+      imageUrl: "portfolio/payment-operations.jpg"
     }
 
   ];
