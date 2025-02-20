@@ -34,7 +34,7 @@ export type Project = {
     <div fxLayout="column" fxLayoutGap="20px">
     <mat-toolbar color="primary" class="title-container">
       <span class="title">Raviteja Gubba</span>
-      <span class="subtitle">Payment Architect | TechLead | FullStack Developer - based in Oslo and delivering solutions worldwide.</span>
+      <span class="subtitle">Payment Architect | TechLead | FullStack Developer - based in Norway.</span>
     </mat-toolbar>
 
     <mat-grid-list [cols]="gridListCols" [rowHeight]="gridListRowHeight">
