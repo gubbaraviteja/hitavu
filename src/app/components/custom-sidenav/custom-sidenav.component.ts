@@ -16,9 +16,8 @@ export type MenuItem = {
   standalone: true,
   imports: [CommonModule, MatListModule, MatIconModule, RouterModule],
   template: `
-    <div class="sidenav-header">
-      <a [routerLink]="['/portfolio']"><img [width]="profilePicSize()" [height]="profilePicSize() " src="/profile-pic.jpg" alt="profilePic"/></a>
-      <div class="header-text" [class.hide-header-text]="sidenavCollapsed()">
+    <div class="sidenav-header" *ngIf="!sidenavCollapsed()">
+      <div class="header-text">
         <h2>Your wellwisher</h2>
         <p>Raviteja Gubba</p>
       </div>
@@ -35,12 +34,6 @@ export type MenuItem = {
       padding-top: 24px;
       text-align: center;
 
-      a img {
-        border-radius: 100%;
-        object-fit: cover;
-        margin-bottom: 10px;
-      }
-
       .header-text {
         > h2 {
           margin: 0;
@@ -53,11 +46,6 @@ export type MenuItem = {
           font-size: 0.8rem;
         }
       }
-
-      .hide-header-text {
-        opacity: 0;
-        height: 0;
-      }
     }
   `]
 })
@@ -69,7 +57,7 @@ export class CustomSidenavComponent {
     this.sidenavCollapsed.set(val);
   }
 
-  profilePicSize = computed(() => this.sidenavCollapsed() ? '32' : '100');
+
 
   menuItems = signal<MenuItem[]>([
     {

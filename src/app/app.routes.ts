@@ -21,6 +21,10 @@ export const routes: Routes = [
     component: SpiritualComponent
   },
   {
+    path: 'spiritual/song/:songId',
+    component: SpiritualComponent
+  },
+  {
     path: 'finance',
     component: FinanceComponent
   },
