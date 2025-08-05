@@ -16,36 +16,58 @@ export type MenuItem = {
   standalone: true,
   imports: [CommonModule, MatListModule, MatIconModule, RouterModule],
   template: `
-    <div class="sidenav-header" *ngIf="!sidenavCollapsed()">
-      <div class="header-text">
-        <h2>Your wellwisher</h2>
-        <p>Raviteja Gubba</p>
+    <div class="sidenav-content">
+      <mat-nav-list>
+        <a mat-list-item *ngFor="let item of menuItems()" [routerLink]="item.route" routerLinkActive #rla="routerLinkActive" [activated]="rla.isActive">
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle *ngIf="!sidenavCollapsed()">{{ item.label }}</span>
+        </a>
+      </mat-nav-list>
+      
+      <!-- Profile picture at bottom left -->
+      <div class="profile-section">
+        <a [routerLink]="['/portfolio']" class="profile-link">
+          <img src="/profile-pic.jpg" alt="profilePic" class="profile-pic"/>
+          <span class="profile-text" *ngIf="!sidenavCollapsed()">About Me</span>
+        </a>
       </div>
     </div>
-    <mat-nav-list>
-      <a mat-list-item *ngFor="let item of menuItems()" [routerLink]="item.route" routerLinkActive #rla="routerLinkActive" [activated]="rla.isActive">
-        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-        <span matListItemTitle *ngIf="!sidenavCollapsed()">{{ item.label }}</span>
-      </a>
-    </mat-nav-list>
   `,
   styles: [`
-    .sidenav-header {
-      padding-top: 24px;
-      text-align: center;
+    .sidenav-content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
 
-      .header-text {
-        > h2 {
-          margin: 0;
-          font-size: 1rem;
-          line-height: 1.5rem;
-        }
+    mat-nav-list {
+      flex: 1;
+    }
 
-        > p {
-          margin: 0;
-          font-size: 0.8rem;
-        }
-      }
+    .profile-section {
+      padding: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .profile-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+      gap: 12px;
+    }
+
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ffd700;
+    }
+
+    .profile-text {
+      color: #ffd700;
+      font-weight: 500;
     }
   `]
 })

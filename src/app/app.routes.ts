@@ -5,12 +5,17 @@ import {HealthComponent} from './pages/health/health.component';
 import {SocialComponent} from './pages/social/social.component';
 import {UpskillComponent} from './pages/upskill/upskill.component';
 import {PortfolioComponent} from './pages/portfolio/portfolio.component';
+import {HomeComponent} from './pages/home/home.component';
 
 export const routes: Routes = [
   {
     path: '',
     pathMatch: "full",
-    redirectTo: 'portfolio'
+    redirectTo: 'home'
+  },
+  {
+    path: 'home',
+    component: HomeComponent
   },
   {
     path: 'portfolio',
