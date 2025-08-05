@@ -26,7 +26,7 @@ import { CommonModule } from '@angular/common';
     .title {
       font-size: 8rem;
       margin-bottom: 35px;
-      color: #ffd700;
+      color:rgba(230, 143, 56, 0.96);
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 8px;
