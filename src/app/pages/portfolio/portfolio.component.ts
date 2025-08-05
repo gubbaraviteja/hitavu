@@ -1,8 +1,5 @@
 import {Component} from '@angular/core';
-import {MatCard, MatCardContent, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
-import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {CommonModule, NgForOf, NgIf} from '@angular/common';
-import {MatToolbar} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
@@ -21,219 +18,468 @@ export type Project = {
 @Component({
   selector: 'app-portfolio',
   imports: [
-    MatCard,
-    MatCardContent,
-    MatCardTitle,
-    MatGridList,
     NgForOf,
-    MatCardSubtitle,
     NgIf,
-    MatToolbar, MatIconModule, MatListModule, CommonModule, MatGridTile
+    MatIconModule, 
+    MatListModule, 
+    CommonModule
   ],
   template: `
-    <div fxLayout="column" fxLayoutGap="20px">
-    <mat-toolbar color="primary" class="title-container">
-      <span class="title">Raviteja Gubba</span>
-      <span class="subtitle">Payment Architect | TechLead | FullStack Developer - based in Norway.</span>
-    </mat-toolbar>
-
-    <mat-grid-list [cols]="gridListCols" [rowHeight]="gridListRowHeight">
-      <mat-grid-tile *ngFor="let project of projects">
-        <mat-card class="featured-card">
-          <img *ngIf="project.imageUrl" src="{{ project.imageUrl }}" alt="{{ project.title }}" class="card-image">
-          <mat-card-content>
-            <mat-card-title class="heading">{{ project.title }}</mat-card-title>
-            <mat-card-subtitle class="role">{{ project.role }}</mat-card-subtitle>
-            <p>{{ project.description }}</p>
-            <p class="project-header">Tech Stack:</p>
-            <ul>
-              <li *ngFor="let service of project.services" class="service">{{ service }}</li>
-            </ul>
-            <p class="project-header">Team size: {{ project.teamSize }}</p>
-            <p class="project-header">Technical details / Contribution:</p>
-            <p *ngFor="let contribution of project.contributions">* {{ contribution }}</p>
-          </mat-card-content>
-          <!--          <mat-card-actions>-->
-          <!--            <button mat-raised-button color="primary">View Project</button>-->
-          <!--          </mat-card-actions>-->
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-
-    <mat-toolbar color="primary" class="footer">
-      <span class="logo">HITAVU</span>
-      <!--      <div class="menu">-->
-      <!--        <a href="#">Home</a>-->
-      <!--        <a href="#">Work</a>-->
-      <!--        <a href="#">Contact</a>-->
-      <!--      </div>-->
-      <div class="social-icons">
-        <a href="https://x.com/gubbaraviteja" target="_blank"><img
-          src="https://cdn.prod.website-files.com/64fed5feaef6acf8a9f7b8ed/65012fc8380c6155c342447a_Icon_X.png"
-          loading="lazy" width="24.5" alt="Icon"></a>
-        <a href="https://www.linkedin.com/in/raviteja-gubba-4b1b7a70/" target="_blank"><img
-          src="https://cdn.prod.website-files.com/64fed5feaef6acf8a9f7b8ed/65012fc7f255dded9fe508fe_Icon_LinkedIn.png"
-          loading="lazy" width="24.5" alt="Icon"></a>
+    <div class="portfolio-container">
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <div class="hero-content">
+          <h1 class="hero-title">Raviteja Gubba</h1>
+          <p class="hero-subtitle">Payment Architect | TechLead | FullStack Developer - based in Norway.</p>
+        </div>
       </div>
-    </mat-toolbar>
+
+      <!-- Projects Section -->
+      <div class="projects-section">
+        <h2 class="section-title">Featured Projects</h2>
+        
+        <div class="projects-container">
+          <!-- Project Grid -->
+          <div class="projects-grid" *ngIf="!selectedProject">
+            <div class="project-card" *ngFor="let project of projects" (click)="selectProject(project)">
+              <div class="project-image-container">
+                <img *ngIf="project.imageUrl" [src]="project.imageUrl" [alt]="project.title" class="project-image">
+                <div class="project-overlay">
+                  <mat-icon>visibility</mat-icon>
+                </div>
+              </div>
+              <div class="project-info">
+                <p class="project-description">{{ project.description }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Selected Project View -->
+          <div class="selected-project" *ngIf="selectedProject">
+            <div class="project-header">
+              <button mat-icon-button (click)="backToProjectList()" class="back-button">
+                <mat-icon>arrow_back</mat-icon>
+              </button>
+              <h2>{{ selectedProject.title }}</h2>
+              <h3>{{ selectedProject.role }}</h3>
+            </div>
+
+            <!-- Project Image -->
+            <div class="project-image-section" *ngIf="selectedProject.imageUrl">
+              <img [src]="selectedProject.imageUrl" [alt]="selectedProject.title" class="project-image">
+            </div>
+
+            <!-- Project Details -->
+            <div class="project-details">
+              <div class="project-info">
+                <h3>Description</h3>
+                <p>{{ selectedProject.description }}</p>
+                
+                <h3>Tech Stack</h3>
+                <div class="tech-stack">
+                  <span *ngFor="let service of selectedProject.services" class="tech-tag">{{ service }}</span>
+                </div>
+                
+                <h3>Team Size</h3>
+                <p>{{ selectedProject.teamSize }}</p>
+                
+                <h3>Key Contributions</h3>
+                <ul class="contributions-list">
+                  <li *ngFor="let contribution of selectedProject.contributions">{{ contribution }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <span class="logo">HITAVU</span>
+        <div class="social-icons">
+          <a href="https://x.com/gubbaraviteja" target="_blank"><img
+            src="https://cdn.prod.website-files.com/64fed5feaef6acf8a9f7b8ed/65012fc8380c6155c342447a_Icon_X.png"
+            loading="lazy" width="24.5" alt="Icon"></a>
+          <a href="https://www.linkedin.com/in/raviteja-gubba-4b1b7a70/" target="_blank"><img
+            src="https://cdn.prod.website-files.com/64fed5feaef6acf8a9f7b8ed/65012fc7f255dded9fe508fe_Icon_LinkedIn.png"
+            loading="lazy" width="24.5" alt="Icon"></a>
+        </div>
+      </div>
     </div>
   `,
   styles: `
-
-    .heading, .role{
-      color: aliceblue;
+    .portfolio-container {
+      min-height: 100vh;
+      background: #000000;
+      color: #ffffff;
     }
 
-    .title-container {
-      display: flex; /* Use flexbox for centering */
-      flex-direction: column;
-      justify-content: center; /* Center content horizontally */
-      align-items: center; /* Center content vertically (optional) */
-      height: 50vh; /* Make the container take full viewport height */
-      background-color: black;
-    }
-
-    .title {
-      font-size: 5rem;
-      margin-bottom: 35px;
-      color: aliceblue;
-    }
-
-    .subtitle {
-      font-size: 1rem;
-      color: #888; /* Optional: Lighter color for the subtitle */
-    }
-
-    .featured-card {
-      background-color: rgba(197, 195, 195, 0.05); /* Dark background with slight transparency */
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-      min-height: 900px;
+    /* Hero Section */
+    .hero-section {
+      height: 60vh;
       display: flex;
-      flex-direction: column;
-      /*width: 25%;*/
-      backdrop-filter: blur(5px); /* Add a subtle blur effect */
-      margin: 10px;
+      align-items: flex-start;
+      justify-content: center;
+      text-align: center;
+      background: #000000;
+      position: relative;
+      padding-top: 20vh;
     }
 
-    .card-image {
+    .hero-content {
+      max-width: 800px;
+      padding: 0 20px;
+    }
+
+    .hero-title {
+      font-size: 5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #ffffff;
+      font-family: sans-serif;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: #808080;
+      margin-bottom: 20px;
+      line-height: 1.4;
+      font-family: sans-serif;
+    }
+
+    /* Projects Section */
+    .projects-section {
+      padding: 40px 20px 60px 20px;
+      background:  #000000;
+      margin-top: -80px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .projects-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Project Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      padding: 20px 0;
+    }
+
+    .project-card {
+      background: rgba(30, 60, 114, 0.2);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(230, 143, 56, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border-color: rgba(230, 143, 56, 0.3);
+      background: rgba(30, 60, 114, 0.3);
+    }
+
+    .project-image-container {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .project-image {
       width: 100%;
-      height: 400px;
+      height: 100%;
       object-fit: cover;
+      transition: transform 0.3s ease;
     }
 
-    mat-card-content {
-      flex-grow: 1; /* Allow the content to grow to fill the remaining space */
-      padding: 16px; /* Add some padding for better readability */
+    .project-card:hover .project-image {
+      transform: scale(1.05);
     }
 
-    .service {
-      font-size: 0.8rem;
+    .project-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    .project-header{
-      font-style: italic;
+    .project-card:hover .project-overlay {
+      opacity: 1;
     }
 
+    .project-overlay mat-icon {
+      color: #e68f38;
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .project-info {
+      padding: 20px;
+    }
+
+    .project-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #e68f38;
+      margin: 0 0 8px 0;
+    }
+
+    .project-role {
+      font-size: 0.9rem;
+      color: #ffa500;
+      margin: 0 0 12px 0;
+      font-weight: 500;
+    }
+
+    .project-description {
+      color: #cccccc;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin: 0 0 15px 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tech-tag {
+      background: rgba(230, 143, 56, 0.2);
+      color: #e68f38;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      border: 1px solid rgba(230, 143, 56, 0.3);
+    }
+
+    .tech-tag.more {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Selected Project View */
+    .selected-project {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(30, 60, 114, 0.3);
+      border-radius: 16px;
+      padding: 30px;
+      border: 1px solid rgba(230, 143, 56, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .project-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      gap: 15px;
+    }
+
+    .back-button {
+      color: #e68f38;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      color: #ffa500;
+      transform: scale(1.1);
+    }
+
+    .project-header h2 {
+      margin: 0;
+      color: #e68f38;
+      font-weight: 600;
+      font-size: 2rem;
+    }
+
+    .project-header h3 {
+      margin: 0;
+      color: #ffa500;
+      font-weight: 500;
+    }
+
+    .project-image-section {
+      margin-bottom: 30px;
+    }
+
+    .project-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .project-details {
+      color: #ffffff;
+    }
+
+    .project-info h3 {
+      color: #e68f38;
+      margin-top: 25px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .project-info p {
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .contributions-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .contributions-list li {
+      padding: 8px 0;
+      border-left: 3px solid #e68f38;
+      padding-left: 15px;
+      margin-bottom: 8px;
+      background: rgba(230, 143, 56, 0.05);
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* Footer */
     .footer {
-      /*bottom: 0;*/
-      /*left: 0;*/
       width: 100%;
       color: white;
-      padding: 10px 0;
-      margin-bottom: 20px;
+      padding: 20px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
     }
 
     .logo {
       font-size: 1.2rem;
       font-weight: bold;
-      color: black;
-      margin-left: 8px;
+      color: #e68f38;
     }
 
     .social-icons {
       display: flex;
+      gap: 15px;
     }
 
     .social-icons a {
-      margin: 5px;
+      transition: transform 0.3s ease;
     }
 
-    @media (max-width: 600px) {
-      .title-container {
-        display: flex; /* Use flexbox for centering */
-        flex-direction: column;
-        justify-content: center; /* Center content horizontally */
-        align-items: center; /* Center content vertically (optional) */
-        height: 15vh; /* Make the container take full viewport height */
+    .social-icons a:hover {
+      transform: scale(1.1);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
       }
 
-      /* Adjust breakpoint as needed */
-      .title {
-        font-size: 2.5rem; /* Reduce font size for smaller screens */
-        margin-bottom: 10px;
+      .hero-subtitle {
+        font-size: 1.2rem;
       }
 
-      .subtitle {
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .selected-project {
+        padding: 20px;
+      }
+
+      .project-header h2 {
+        font-size: 1.5rem;
+      }
+
+      .tech-stack {
+        gap: 6px;
+      }
+
+      .tech-tag {
         font-size: 0.8rem;
-      }
-
-      .featured-card {
-        background-color: rgba(197, 195, 195, 0.05); /* Dark background with slight transparency */
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        overflow: scroll;
-        min-height: 200px;
-        display: flex;
-        flex-direction: column;
-        /*width: 25%;*/
-        backdrop-filter: blur(5px); /* Add a subtle blur effect */
-        /*margin: 10px;*/
-      }
-
-      mat-card-content {
-        flex-grow: 1; /* Allow the content to grow to fill the remaining space */
-        padding: 10px; /* Add some padding for better readability */
-      }
-
-      .service {
-        font-size: 0.9rem;
+        padding: 4px 8px;
       }
     }
   `
 })
 export class PortfolioComponent {
 
-  gridListCols: number = 3;
-  gridListRowHeight: string = '550px';
+  selectedProject: Project | null = null;
 
   constructor(private breakpointObserver: BreakpointObserver) {}
 
-  ngOnInit() {
-    this.breakpointObserver.observe([
-      Breakpoints.XSmall,
-      Breakpoints.Small,
-      Breakpoints.Medium,
-      Breakpoints.Large,
-      Breakpoints.XLarge,
-    ]).subscribe((result) => {
-      if (result.matches) {
-        if (result.breakpoints[Breakpoints.XSmall]) {
-          this.gridListCols = 1;
-          this.gridListRowHeight = '840px';
-        } else if (result.breakpoints[Breakpoints.Small]) {
-          this.gridListCols = 2;
-          this.gridListRowHeight = '800px';
-        } else {
-          this.gridListCols = 2;
-          this.gridListRowHeight = '950px';
-        }
-      }
-    });
+  selectProject(project: Project) {
+    this.selectedProject = project;
   }
+
+  backToProjectList() {
+    this.selectedProject = null;
+  }
+
+  shareProject() {
+    if (this.selectedProject) {
+      const shareUrl = `${window.location.origin}/portfolio`;
+      
+      if (navigator.share) {
+        navigator.share({
+          title: this.selectedProject.title,
+          text: `Check out this project: ${this.selectedProject.description}`,
+          url: shareUrl
+        });
+      } else {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          alert('Project URL copied to clipboard!');
+        }).catch(() => {
+          prompt('Share this URL:', shareUrl);
+        });
+      }
+    }
+  }
+
+
 
   projects: Project[] = [
     {
