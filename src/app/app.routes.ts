@@ -4,12 +4,17 @@ import {FinanceComponent} from './pages/finance/finance.component';
 import {HealthComponent} from './pages/health/health.component';
 import {SocialComponent} from './pages/social/social.component';
 import {UpskillComponent} from './pages/upskill/upskill.component';
+import {PortfolioComponent} from './pages/portfolio/portfolio.component';
 
 export const routes: Routes = [
   {
     path: '',
     pathMatch: "full",
-    redirectTo: 'spiritual'
+    redirectTo: 'portfolio'
+  },
+  {
+    path: 'portfolio',
+    component: PortfolioComponent
   },
   {
     path: 'spiritual',
