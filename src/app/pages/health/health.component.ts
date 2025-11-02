@@ -120,15 +120,59 @@ import { CommonModule } from '@angular/common';
     }
     
     ::ng-deep .mat-mdc-tab-label {
-      color: white !important;
+      color: rgba(255, 255, 255, 0.85) !important;
+      opacity: 1 !important;
+    }
+    
+    ::ng-deep .mat-mdc-tab-label .mdc-tab__text-label {
+      color: rgba(255, 255, 255, 0.85) !important;
+    }
+    
+    ::ng-deep .mat-mdc-tab-label:hover {
+      color: rgba(255, 255, 255, 1) !important;
+    }
+    
+    ::ng-deep .mat-mdc-tab-label:hover .mdc-tab__text-label {
+      color: rgba(255, 255, 255, 1) !important;
     }
     
     ::ng-deep .mat-mdc-tab-label-active {
       color: #ff6b6b !important;
+      font-weight: 500 !important;
+    }
+    
+    ::ng-deep .mat-mdc-tab-label-active .mdc-tab__text-label {
+      color: #ff6b6b !important;
+      font-weight: 500 !important;
     }
     
     ::ng-deep .mat-mdc-tab-header {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    ::ng-deep .mdc-tab__text-label,
+    ::ng-deep .mdc-tab__content .mdc-tab__text-label,
+    ::ng-deep .mat-mdc-tab-label-container .mdc-tab__text-label {
+      color: rgba(255, 255, 255, 0.85) !important;
+    }
+    
+    ::ng-deep .mdc-tab--active .mdc-tab__text-label,
+    ::ng-deep .mdc-tab--active .mdc-tab__content .mdc-tab__text-label {
+      color: #ff6b6b !important;
+      font-weight: 500 !important;
+    }
+    
+    ::ng-deep .mat-mdc-tab-header-pagination-controls-enabled .mat-mdc-tab-header-pagination {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    ::ng-deep .mdc-tab-indicator__content--underline {
+      border-color: #ff6b6b !important;
+      border-width: 3px !important;
+    }
+    
+    ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab-indicator__content--underline {
+      border-color: #ff6b6b !important;
     }
   `
 })
